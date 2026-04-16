@@ -5,6 +5,7 @@ from retrieval.embedding_model import EmbeddingModel
 from retrieval.vector_store import FAISSVectorStore
 from retrieval.bm25_retriever import BM25Retriever
 from retrieval.hybrid_retriever import HybridRetriever
+from retrieval.query_processor import split_query
 
 from reranker.cross_encoder_reranker import CrossEncoderReranker
 from llm.llm_generator import LLMGenerator
@@ -59,20 +60,24 @@ class RAGPipeline:
     # 🔥 THIS IS WHAT EVALUATION NEEDS
     def run(self, query):
 
-        # Retrieval
-        retrieved_docs = self.hybrid.search(query)
+        sub_queries = split_query(query)
 
-        # Re-ranking
-        reranked = self.reranker.rerank(query, retrieved_docs)
+        final_answers = []
+        all_contexts = []
 
-        # Top chunks
-        top_chunks = [doc for doc, _ in reranked[:4]]
+        for q in sub_queries:
 
-        # Generation
-        answer = self.llm.generate(top_chunks, query)
+            retrieved_docs = self.hybrid.search(q)
+            reranked = self.reranker.rerank(q, retrieved_docs)
 
-        # ✅ REQUIRED FORMAT
+            top_chunks = [doc for doc, _ in reranked[:4]]
+
+            answer = self.llm.generate(top_chunks, q)
+
+            final_answers.append(answer)
+            all_contexts.extend(top_chunks)
+
         return {
-            "answer": answer,
-            "context": top_chunks
+            "answer": " ".join(final_answers),
+            "contexts": all_contexts
         }

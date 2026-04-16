@@ -80,5 +80,16 @@ class LLMGenerator:
 
         # ✅ Step 5: Decode
         answer = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+        # ------------------------------
+        # CLEAN OUTPUT (POST-PROCESSING)
+        # ------------------------------
+        answer = answer.strip()
 
-        return answer.strip()
+        # Fix duplicate / mixed "I don't know"
+        if "I don't know" in answer:
+            return "I don't know based on the provided documents."
+
+        # Remove quotes / weird symbols
+        answer = answer.replace('"', '').strip()
+
+        return answer
