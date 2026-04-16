@@ -1,0 +1,106 @@
+[
+  {
+    "question": "What is RAG?",
+    "answer": "RAG is a technique that combines retrieval systems with language models."
+  },
+  {
+    "question": "Why is RAG better than traditional language models?",
+    "answer": "RAG improves accuracy by using external data instead of relying only on internal memory."
+  },
+  {
+    "question": "What is hybrid retrieval?",
+    "answer": "Hybrid retrieval combines keyword-based and semantic search methods."
+  },
+  {
+    "question": "What is the role of a cross-encoder in RAG?",
+    "answer": "A cross-encoder reranks retrieved documents by evaluating query-document relevance."
+  },
+  {
+    "question": "What is Retrieval-Augmented Generation?",
+    "answer": "Retrieval-Augmented Generation is a technique that combines retrieval systems with language models."
+  },
+  {
+    "question": "Why do traditional language models sometimes give incorrect answers?",
+    "answer": "Traditional language models rely only on internal training data, which can be outdated or incorrect."
+  },
+  {
+    "question": "How does RAG improve answer accuracy?",
+    "answer": "RAG improves accuracy by retrieving relevant information from external sources and using it to generate responses."
+  },
+  {
+    "question": "What is the first step in a RAG pipeline?",
+    "answer": "The first step is retrieving relevant documents from a database using the user query."
+  },
+  {
+    "question": "What happens after documents are retrieved in RAG?",
+    "answer": "The retrieved documents are passed to a language model to generate an answer."
+  },
+  {
+    "question": "What is keyword-based retrieval?",
+    "answer": "Keyword-based retrieval uses exact word matching to find relevant documents."
+  },
+  {
+    "question": "What is semantic retrieval?",
+    "answer": "Semantic retrieval uses vector embeddings to find meaning-based similarities between queries and documents."
+  },
+  {
+    "question": "What is hybrid retrieval in RAG?",
+    "answer": "Hybrid retrieval combines keyword-based and semantic search methods."
+  },
+  {
+    "question": "Why is hybrid retrieval useful?",
+    "answer": "It improves retrieval performance by considering both exact matches and semantic relevance."
+  },
+  {
+    "question": "What is the role of a cross-encoder in RAG?",
+    "answer": "A cross-encoder reranks retrieved documents by jointly evaluating the query and document."
+  },
+  {
+    "question": "Why is re-ranking important in RAG systems?",
+    "answer": "Re-ranking helps select the most relevant documents before passing them to the language model."
+  },
+  {
+    "question": "Where is RAG commonly used?",
+    "answer": "RAG is used in chatbots, search engines, and AI assistants."
+  },
+  {
+    "question": "How does RAG reduce hallucination?",
+    "answer": "RAG reduces hallucination by grounding responses in retrieved documents."
+  },
+  {
+    "question": "What factors affect RAG performance?",
+    "answer": "RAG performance depends on chunking, embeddings, retrieval strategy, and ranking."
+  },
+  {
+    "question": "Why is chunking important in RAG?",
+    "answer": "Chunking affects how well relevant information is retrieved and passed to the model."
+  },
+  {
+    "question": "What happens if chunks are too large?",
+    "answer": "If chunks are too large, they may include irrelevant information."
+  },
+  {
+    "question": "What happens if chunks are too small?",
+    "answer": "If chunks are too small, important context may be lost."
+  },
+  {
+    "question": "What are embedding models used for?",
+    "answer": "Embedding models convert text into vector representations for semantic search."
+  },
+  {
+    "question": "What is FAISS used for?",
+    "answer": "FAISS is used for efficient similarity search over vector embeddings."
+  },
+  {
+    "question": "What is a limitation of RAG systems?",
+    "answer": "RAG systems can produce incorrect answers if retrieval fails or documents are poor quality."
+  },
+  {
+    "question": "What does a reranking model do?",
+    "answer": "A reranking model scores and orders retrieved documents based on relevance."
+  },
+  {
+    "question": "Why are external knowledge sources important in RAG?",
+    "answer": "They provide up-to-date and domain-specific information for generating accurate answers."
+  }
+]

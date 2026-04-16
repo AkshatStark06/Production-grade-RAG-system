@@ -1,0 +1,42 @@
+prompts:
+
+  summarization_v7:
+    template: |
+      Answer the question using the provided context.
+
+      Give a complete and clear answer in 1-2 sentences.
+
+      Context:
+      {context}
+
+      Question:
+      {question}
+
+      Answer:
+
+
+  strict_grounding_v2:
+    description: "Strict grounding (no hallucination)"
+    template: |
+      Use only the context to answer the question.
+      If the answer is not in the context, say "Not found".
+
+      Context:
+      {context}
+
+      Question:
+      {question}
+
+      Answer:
+
+
+  qa_v1:
+    description: "Simple QA (baseline)"
+    template: |
+      Context:
+      {context}
+
+      Question:
+      {question}
+
+      Give a concise answer:
