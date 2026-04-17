@@ -5,8 +5,8 @@ import os
 # Add project root to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from main import build_rag_pipeline
-
+# from main import build_rag_pipeline
+import requests
 
 # ------------------------------
 # PAGE CONFIG
@@ -23,11 +23,22 @@ st.title("🤖 Production-Grade RAG Chatbot")
 # ------------------------------
 # LOAD RAG PIPELINE (CACHE)
 # ------------------------------
-@st.cache_resource
-def load_pipeline():
-    return build_rag_pipeline()
+#@st.cache_resource
+#def load_pipeline():
+#    return build_rag_pipeline()
 
-rag = load_pipeline()
+#rag = load_pipeline()
+API_URL = "http://127.0.0.1:8000/query"
+
+
+# ------------------------------
+# SIDEBAR (NEW 🔥)
+# ------------------------------
+with st.sidebar:
+    st.header("⚙️ Settings")
+
+    show_context = st.toggle("Show Retrieved Context", value=True)
+    show_debug = st.toggle("Show Debug Info", value=False)
 
 
 # ------------------------------
@@ -62,18 +73,57 @@ if query:
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
 
-            # Run RAG pipeline
-            result = rag.run(query)
+            try:
+                # Run RAG pipeline
+                response = requests.post(
+                    API_URL,
+                    json={"query": query}
+                )
 
-            answer = result["answer"]
-            contexts = result.get("contexts", [])
+                if response.status_code == 200:
+                    result = response.json()
+                else:
+                    st.error("API Error")
+                    result = {"answer": "Error", "context": []}
 
-            st.markdown(answer)
+                answer = result["answer"]
+                contexts = result.get("context", [])
 
-            # Optional: Show contexts
-            with st.expander("📄 Retrieved Context"):
-                for i, ctx in enumerate(contexts):
-                    st.markdown(f"**Chunk {i+1}:** {ctx}")
+                # ------------------------------
+                # CLEAN DISPLAY (IMPROVED)
+                # ------------------------------
+                st.markdown("### 🤖 Answer")
+                st.markdown(answer)
+
+                # ------------------------------
+                # CONTEXT DISPLAY (IMPROVED)
+                # ------------------------------
+                if show_context:
+                    with st.expander("📄 Retrieved Context"):
+                        for i, ctx in enumerate(contexts, 1):
+
+                            # Limit length for readability
+                            MAX_CHARS = 300
+                            content = (
+                                ctx[:MAX_CHARS] + "..."
+                                if len(ctx) > MAX_CHARS
+                                else ctx
+                            )
+
+                            st.markdown(f"**Chunk {i}**")
+                            st.markdown(content)
+                            st.divider()
+
+                # ------------------------------
+                # DEBUG INFO (🔥 PORTFOLIO BOOST)
+                # ------------------------------
+                if show_debug:
+                    with st.expander("🔍 Debug Info"):
+                        st.json(result)
+
+            except Exception as e:
+                st.error("Something went wrong. Please try again.")
+                answer = "Error occurred."
 
     # Store assistant response
     st.session_state.messages.append({
