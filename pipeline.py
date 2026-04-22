@@ -69,10 +69,10 @@ class RAGPipeline:
         for q in sub_queries:
 
             retrieved_docs = self.hybrid.search(q)
-            print("DEBUG retrieved_docs:", retrieved_docs[:2])
+            #print("DEBUG retrieved_docs:", retrieved_docs[:2])
         
             reranked = self.reranker.rerank(q, retrieved_docs)
-            print("DEBUG reranked:", reranked[:1])
+            #print("DEBUG reranked:", reranked[:1])
         
             # ------------------------------
             # HANDLE EMPTY RERANKED (IMPORTANT FIX)
