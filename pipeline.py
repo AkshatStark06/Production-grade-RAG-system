@@ -11,6 +11,7 @@ from reranker.cross_encoder_reranker import CrossEncoderReranker
 from llm.llm_generator import LLMGenerator
 
 from config.config_loader import load_config
+import math
 
 
 class RAGPipeline:
@@ -79,10 +80,12 @@ class RAGPipeline:
             # ------------------------------
             if reranked and len(reranked) > 0:
                 top_chunks = [doc for doc, _ in reranked[:4]]
-        
+
+                raw_score = float(reranked[0][1])
+                normalized_score = 1 / (1 + math.exp(-raw_score))
                 # Confidence from reranker
                 try:
-                    confidence_scores.append(float(reranked[0][1]))
+                    confidence_scores.append(normalized_score)
                 except:
                     confidence_scores.append(0.0)
         
@@ -90,7 +93,7 @@ class RAGPipeline:
                 # 🔥 FALLBACK: use retrieved docs OR base chunks
                 if retrieved_docs:
                     top_chunks = retrieved_docs[:4]
-                    confidence_scores.append(0.3)  # baseline confidence
+                    confidence_scores.append(0.4)  # baseline confidence
                 else:
                     top_chunks = self.chunks[:4]
                     confidence_scores.append(0.2)  # very low confidence
