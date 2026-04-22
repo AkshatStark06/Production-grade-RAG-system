@@ -34,6 +34,60 @@ st.set_page_config(
 
 st.title("🤖 Production-Grade RAG Chatbot")
 
+st.markdown("### 💡 Try these example questions")
+
+example_questions = [
+    "What is this system?",
+    "How does the retrieval process work?",
+    "What models are used in this RAG pipeline?",
+    "Explain the role of reranking"
+]
+
+selected_q = st.selectbox("Select a sample question", [""] + example_questions)
+
+if selected_q:
+    st.session_state.messages.append({"role": "user", "content": selected_q})
+    st.rerun()
+
+with st.expander("📄 About the Knowledge Base"):
+    st.markdown("""
+This chatbot is powered by a curated dataset containing information about:
+
+- Retrieval-Augmented Generation (RAG)
+- Vector databases (FAISS)
+- Embedding models
+- Reranking techniques
+
+Try asking questions related to these topics for best results.
+""")
+
+with st.expander("📂 View Sample Knowledge Base (sample.txt)"):
+    try:
+        with open("data/sample.txt", "r", encoding="utf-8") as f:
+            content = f.read()
+
+        MAX_CHARS = 2000  # limit display size
+        display_text = content[:MAX_CHARS]
+
+        st.text_area(
+            "Sample Data Preview",
+            display_text,
+            height=300
+        )
+        with open("data/sample.txt", "rb") as f:
+            st.download_button(
+                label="⬇️ Download Full Sample File",
+                data=f,
+                file_name="sample.txt",
+                mime="text/plain"
+            )
+
+        if len(content) > MAX_CHARS:
+            st.caption("Showing partial content...")
+
+    except Exception as e:
+        st.error(f"Could not load sample.txt: {e}")
+
 BASE_URL = "http://localhost:8000"
 API_URL = f"{BASE_URL}/query"
 STREAM_URL = f"{BASE_URL}/query-stream"
