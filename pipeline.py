@@ -82,7 +82,7 @@ class RAGPipeline:
                 top_chunks = [doc for doc, _ in reranked[:4]]
 
                 raw_score = float(reranked[0][1])
-                normalized_score = 1 / (1 + math.exp(-raw_score))
+                normalized_score = min(0.99, 1 / (1 + math.exp(-raw_score)))
                 # Confidence from reranker
                 try:
                     confidence_scores.append(normalized_score)
