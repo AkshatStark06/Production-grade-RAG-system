@@ -14,13 +14,18 @@ rag_service = RAGService()
 @router.post("/query", response_model=QueryResponse)
 def query_rag(request: QueryRequest):
     result = rag_service.query(request.query)
-    return result
+
+    return {
+        "answer": result["answer"],
+        "context": result.get("contexts", []), 
+        "confidence": result.get("confidence", 0.0)
+    }
 
 @router.post("/query-stream")
 def query_stream(request: QueryRequest):
 
     def generator():
         for chunk in rag_service.stream_query(request.query):
-            yield f"data: {chunk}\n\n"   # 👈 VERY IMPORTANT
+            yield f"data: {chunk}\n\n"  
 
     return StreamingResponse(generator(), media_type="text/event-stream")
