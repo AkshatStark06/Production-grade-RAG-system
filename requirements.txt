@@ -5,6 +5,7 @@ chromadb
 sentence-transformers
 rank-bm25
 transformers
+accelerate
 torch
 pypdf
 tqdm
