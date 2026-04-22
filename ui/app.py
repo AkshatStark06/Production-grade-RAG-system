@@ -52,6 +52,7 @@ with st.sidebar:
         "Select Mode",
         ["Streaming Mode", "Debug Mode"]
     )
+    st.caption(" Streaming = faster answers | Debug = detailed insights")
 
     # ------------------------------
     # DEFAULT FLAGS
@@ -71,7 +72,7 @@ with st.sidebar:
     # DEBUG MODE
     # ------------------------------
     else:
-        st.info("🧠 Debug Mode: Select what to display")
+        st.info(" Debug Mode: Select what to display")
 
         show_context = st.checkbox("📄 Show Retrieved Context", value=True)
         show_debug = st.checkbox("🔍 Show Debug Info", value=False)
