@@ -45,37 +45,46 @@ STREAM_URL = f"{BASE_URL}/query-stream"
 with st.sidebar:
     st.header("⚙️ Settings")
 
-    default_stream = os.getenv("STREAMING_ENABLED", "true") == "true"
-
     # ------------------------------
-    # SESSION STATE INIT
-    # ------------------------------
-    if "mode" not in st.session_state:
-        st.session_state.mode = "streaming" if default_stream else "context"
-
-    # ------------------------------
-    # MODE SELECTION (Mutually Exclusive)
+    # MAIN MODE SELECTION
     # ------------------------------
     mode = st.radio(
         "Select Mode",
-        ["Streaming", "Context", "Debug"],
-        index=["Streaming", "Context", "Debug"].index(
-            st.session_state.mode.capitalize()
-        )
+        ["Streaming Mode", "Debug Mode"]
     )
 
-    # Update session state
-    st.session_state.mode = mode.lower()
+    # ------------------------------
+    # DEFAULT FLAGS
+    # ------------------------------
+    use_streaming = False
+    show_context = False
+    show_debug = False
 
     # ------------------------------
-    # FLAGS (USED BELOW)
+    # STREAMING MODE
     # ------------------------------
-    use_streaming = st.session_state.mode == "streaming"
-    show_context = st.session_state.mode == "context"
-    show_debug = st.session_state.mode == "debug"
+    if mode == "Streaming Mode":
+        use_streaming = True
+        st.success("⚡ Fast response mode (no context/debug)")
 
-    st.divider()
-    st.success(f"Mode: {mode}")
+    # ------------------------------
+    # DEBUG MODE
+    # ------------------------------
+    else:
+        st.info("🧠 Debug Mode: Select what to display")
+
+        show_context = st.checkbox("📄 Show Retrieved Context", value=True)
+        show_debug = st.checkbox("🔍 Show Debug Info", value=False)
+
+        # Optional UX feedback
+        if show_context and show_debug:
+            st.success("Showing: Context + Debug")
+        elif show_context:
+            st.success("Showing: Context only")
+        elif show_debug:
+            st.success("Showing: Debug only")
+        else:
+            st.warning("Nothing selected — only answer will be shown")
 
 
 # ------------------------------
