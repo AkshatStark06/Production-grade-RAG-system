@@ -69,29 +69,40 @@ class RAGPipeline:
         for q in sub_queries:
 
             retrieved_docs = self.hybrid.search(q)
+            print("DEBUG retrieved_docs:", retrieved_docs[:2])
+        
             reranked = self.reranker.rerank(q, retrieved_docs)
-
             print("DEBUG reranked:", reranked[:1])
-
+        
+            # ------------------------------
+            # HANDLE EMPTY RERANKED (IMPORTANT FIX)
+            # ------------------------------
             if reranked and len(reranked) > 0:
-                top_score = reranked[0][1]
-            
-                # Ensure it's valid float
+                top_chunks = [doc for doc, _ in reranked[:4]]
+        
+                # Confidence from reranker
                 try:
-                    confidence_scores.append(float(top_score))
+                    confidence_scores.append(float(reranked[0][1]))
                 except:
                     confidence_scores.append(0.0)
-
-            top_chunks = [doc for doc, _ in reranked[:4]]
-
+        
+            else:
+                # 🔥 FALLBACK: use retrieved docs OR base chunks
+                if retrieved_docs:
+                    top_chunks = retrieved_docs[:4]
+                    confidence_scores.append(0.3)  # baseline confidence
+                else:
+                    top_chunks = self.chunks[:4]
+                    confidence_scores.append(0.2)  # very low confidence
+        
             answer = self.llm.generate(top_chunks, q)
-
+        
             final_answers.append(answer)
             all_contexts.extend(top_chunks)
 
         avg_confidence = (
             sum(confidence_scores) / len(confidence_scores)
-            if confidence_scores else 0.0
+            if confidence_scores else 0.3
         )
 
         return {
