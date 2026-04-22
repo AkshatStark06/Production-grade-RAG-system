@@ -36,19 +36,12 @@ st.title("🤖 Production-Grade RAG Chatbot")
 
 st.markdown("### 💡 Try these example questions")
 
-example_questions = [
-    "What is this system?",
-    "How does the retrieval process work?",
-    "What models are used in this RAG pipeline?",
-    "Explain the role of reranking"
-]
-
-selected_q = st.selectbox("Select a sample question", [""] + example_questions)
-
-if selected_q and st.session_state.get("last_selected_q") != selected_q:
-    st.session_state.messages.append({"role": "user", "content": selected_q})
-    st.session_state.last_selected_q = selected_q
-    st.rerun()
+st.info("""
+• What is this system?  
+• How does the retrieval process work?  
+• What models are used in this RAG pipeline?  
+• Explain the role of reranking  
+""")
 
 with st.expander("📄 About the Knowledge Base"):
     st.markdown("""
