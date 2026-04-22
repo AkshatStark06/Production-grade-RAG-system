@@ -38,5 +38,12 @@ EXPOSE 7860
 # ----------------------------
 CMD bash -c "\
 echo 'Starting FastAPI...' && \
-uvicorn api.app:app --host 0.0.0.0 --port 8000 --log-level debug \
+uvicorn api.app:app --host 0.0.0.0 --port 8000 --log-level info & \
+sleep 5 && \
+echo 'Starting Streamlit...' && \
+streamlit run ui/app.py \
+--server.port 7860 \
+--server.address 0.0.0.0 \
+--server.headless true \
+--browser.gatherUsageStats false \
 "
