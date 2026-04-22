@@ -70,6 +70,9 @@ class RAGPipeline:
             retrieved_docs = self.hybrid.search(q)
             reranked = self.reranker.rerank(q, retrieved_docs)
 
+            if reranked:
+                confidence_scores.append(reranked[0][1])
+
             top_chunks = [doc for doc, _ in reranked[:4]]
 
             answer = self.llm.generate(top_chunks, q)
@@ -77,7 +80,13 @@ class RAGPipeline:
             final_answers.append(answer)
             all_contexts.extend(top_chunks)
 
+        avg_confidence = (
+            sum(confidence_scores) / len(confidence_scores)
+            if confidence_scores else 0.0
+        )
+
         return {
             "answer": " ".join(final_answers),
-            "contexts": all_contexts
+            "contexts": all_contexts,
+            "confidence": float(avg_confidence)
         }
