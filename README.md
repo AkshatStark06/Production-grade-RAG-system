@@ -65,7 +65,7 @@ This system follows a **production-grade RAG pipeline**:
 
 ## 🏗️ Architecture
 
-![RAG Architecture](architecture.png)
+![RAG Architecture](architecture.jpg)
 
 ---
 
