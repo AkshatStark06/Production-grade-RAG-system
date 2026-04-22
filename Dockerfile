@@ -37,10 +37,6 @@ EXPOSE 7860
 # START BOTH SERVICES
 # ----------------------------
 CMD bash -c "\
-uvicorn api.app:app --host 0.0.0.0 --port 8000 & \
-streamlit run ui/app.py \
---server.port 7860 \
---server.address 0.0.0.0 \
---server.headless true \
---browser.gatherUsageStats false \
+echo 'Starting FastAPI...' && \
+uvicorn api.app:app --host 0.0.0.0 --port 8000 --log-level debug \
 "
