@@ -1,3 +1,12 @@
+---
+title: RAG Production App
+emoji: 🤖
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+---
+
 # 🧠 Production-Grade RAG System (₹0 Cost)
 
 A fully local, production-style Retrieval-Augmented Generation (RAG) system built using only open-source tools — no paid APIs.
