@@ -45,10 +45,37 @@ STREAM_URL = f"{BASE_URL}/query-stream"
 with st.sidebar:
     st.header("⚙️ Settings")
 
-    show_context = st.toggle("Show Retrieved Context", value=True)
-    show_debug = st.toggle("Show Debug Info", value=False)
     default_stream = os.getenv("STREAMING_ENABLED", "true") == "true"
-    use_streaming = st.toggle("Enable Streaming", value=default_stream)
+
+    # ------------------------------
+    # SESSION STATE INIT
+    # ------------------------------
+    if "mode" not in st.session_state:
+        st.session_state.mode = "streaming" if default_stream else "context"
+
+    # ------------------------------
+    # MODE SELECTION (Mutually Exclusive)
+    # ------------------------------
+    mode = st.radio(
+        "Select Mode",
+        ["Streaming", "Context", "Debug"],
+        index=["Streaming", "Context", "Debug"].index(
+            st.session_state.mode.capitalize()
+        )
+    )
+
+    # Update session state
+    st.session_state.mode = mode.lower()
+
+    # ------------------------------
+    # FLAGS (USED BELOW)
+    # ------------------------------
+    use_streaming = st.session_state.mode == "streaming"
+    show_context = st.session_state.mode == "context"
+    show_debug = st.session_state.mode == "debug"
+
+    st.divider()
+    st.success(f"Mode: {mode}")
 
 
 # ------------------------------
