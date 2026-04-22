@@ -47,6 +47,7 @@ class RAGService:
         # ✅ FIRST extract
         answer = result["answer"]
         contexts = result.get("contexts", [])
+        confidence = result.get("confidence", 0.0)
 
         # ✅ THEN debug print  
         for i, ctx in enumerate(contexts):
@@ -57,5 +58,6 @@ class RAGService:
         return {
             "query": user_query,
             "answer": answer,
-            "context": contexts
+            "context": contexts,
+            "confidence": confidence
         }
