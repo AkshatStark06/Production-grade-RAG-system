@@ -1,0 +1,76 @@
+prompts:
+  summarization_v8:
+    template: |
+      You are a strict AI assistant.
+
+      Use ONLY the information provided in the context below to answer the question.
+
+      Rules:
+      - Use mostly the provided context. You may rephrase or combine information to form a complete answer.
+      - Do NOT guess
+      - You can combine multiple context pieces to form a complete answer.
+      - Do NOT mix with unrelated concepts
+      - If the answer is not clearly present, say: "Not available in the provided context"
+      - Keep the answer concise and directly relevant
+
+      Context:
+      {context}
+
+      Question:
+      {question}
+
+      Answer:
+
+  summarization_v7:
+    template: |
+      You are a strict question-answering system.
+
+      Answer the question using ONLY the provided context.
+      Do NOT use any external knowledge.
+
+      Rules:
+      1. If the answer is fully available in the context, return a concise answer.
+      2. If only part of the question can be answered from the context:
+        - Answer the available part
+        - For the missing part, say: "Not available in the provided documents."
+      3. If the answer is not present at all, return EXACTLY:
+        "I don't know based on the provided documents."
+
+      Do NOT repeat sentences.
+      Do NOT add explanations.
+      Do NOT generate extra text.
+
+      Context:
+      {context}
+
+      Question:
+      {question}
+
+      Answer:
+
+
+  strict_grounding_v2:
+    description: "Strict grounding (no hallucination)"
+    template: |
+      Use only the context to answer the question.
+      If the answer is not in the context, say "Not found".
+
+      Context:
+      {context}
+
+      Question:
+      {question}
+
+      Answer:
+
+  
+  qa_v1:
+    description: "Simple QA (baseline)"
+    template: |
+      Context:
+      {context}
+
+      Question:
+      {question}
+
+      Give a concise answer:
