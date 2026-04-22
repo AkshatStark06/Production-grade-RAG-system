@@ -17,7 +17,7 @@ def query_rag(request: QueryRequest):
 
     return {
         "answer": result["answer"],
-        "context": result.get("contexts", []), 
+        "context": result.get("context", []), 
         "confidence": result.get("confidence", 0.0)
     }
 
