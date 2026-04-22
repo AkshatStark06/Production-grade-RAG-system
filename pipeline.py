@@ -71,8 +71,16 @@ class RAGPipeline:
             retrieved_docs = self.hybrid.search(q)
             reranked = self.reranker.rerank(q, retrieved_docs)
 
-            if reranked:
-                confidence_scores.append(reranked[0][1])
+            print("DEBUG reranked:", reranked[:1])
+
+            if reranked and len(reranked) > 0:
+                top_score = reranked[0][1]
+            
+                # Ensure it's valid float
+                try:
+                    confidence_scores.append(float(top_score))
+                except:
+                    confidence_scores.append(0.0)
 
             top_chunks = [doc for doc, _ in reranked[:4]]
 
