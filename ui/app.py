@@ -200,6 +200,7 @@ if query:
 
                     answer = result["answer"]
                     contexts = result.get("context", [])
+                    st.write("DEBUG contexts:", contexts)
                     confidence = result.get("confidence", None)
 
                     st.markdown("### 🤖 Answer")
