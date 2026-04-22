@@ -44,14 +44,14 @@ class RAGService:
         else:
             result = self.pipeline.run(user_query)
 
-        # ✅ FIRST extract
+        # FIRST extract
         answer = result["answer"]
         contexts = result.get("contexts", [])
         confidence = result.get("confidence", 0.0)
 
-        # ✅ THEN debug print  
-        for i, ctx in enumerate(contexts):
-            print(f"\n[CTX {i+1}]: {ctx[:200]}")        
+        # THEN debug print  
+        #for i, ctx in enumerate(contexts):
+        #    print(f"\n[CTX {i+1}]: {ctx[:200]}")        
 
         logger.info("Answer generated successfully")
 
