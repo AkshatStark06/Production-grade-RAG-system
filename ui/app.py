@@ -206,7 +206,13 @@ if query:
                     st.markdown("### 🤖 Answer")
                     st.markdown(answer)
                     if confidence is not None:
-                        st.metric("Confidence Score", f"{confidence:.2f}")
+                        if confidence > 0.85:
+                            st.success(f"🟢 High Confidence ({confidence:.2f})")
+                        elif confidence > 0.6:
+                            st.warning(f"🟡 Medium Confidence ({confidence:.2f})")
+                        else:
+                            st.error(f"🔴 Low Confidence ({confidence:.2f})")
+                    st.caption("Confidence reflects how strongly the retrieved context matches your query (based on reranker score).")
 
                 # ------------------------------
                 # CONTEXT DISPLAY
