@@ -64,6 +64,7 @@ class RAGPipeline:
 
         final_answers = []
         all_contexts = []
+        confidence_scores = []
 
         for q in sub_queries:
 
