@@ -45,8 +45,9 @@ example_questions = [
 
 selected_q = st.selectbox("Select a sample question", [""] + example_questions)
 
-if selected_q:
+if selected_q and st.session_state.get("last_selected_q") != selected_q:
     st.session_state.messages.append({"role": "user", "content": selected_q})
+    st.session_state.last_selected_q = selected_q
     st.rerun()
 
 with st.expander("📄 About the Knowledge Base"):
@@ -206,9 +207,12 @@ if query:
 
                     answer = result["answer"]
                     contexts = result.get("context", [])
+                    confidence = result.get("confidence", None)
 
                     st.markdown("### 🤖 Answer")
                     st.markdown(answer)
+                    if confidence is not None:
+                        st.metric("Confidence Score", f"{confidence:.2f}")
 
                 # ------------------------------
                 # CONTEXT DISPLAY
